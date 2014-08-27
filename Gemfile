@@ -28,20 +28,17 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
 # Use unicorn as the app server
 gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
 
 # Twitter bootstrap style framework
 gem 'bootstrap-sass'
 
 # Stylesheet autoprefixer
 gem 'autoprefixer-rails'
+
+# Authentication with device
+gem 'devise'
+
+# Easier form generation
+gem 'simple_form', github: 'plataformatec/simple_form'
