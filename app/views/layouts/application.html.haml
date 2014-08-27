@@ -10,5 +10,6 @@
     .navbar.navbar-inverse.navbar-static-top{ role: 'navigation' }
       .container= render 'layouts/navbar'
     .container
-      = render 'layouts/flash_messages'
-      = yield
+      .sub-container{ class: (sub_container_classes if defined?(sub_container_classes)) }
+        = render 'layouts/flash_messages'
+        = yield
