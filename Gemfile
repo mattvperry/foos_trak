@@ -42,3 +42,6 @@ gem 'devise'
 
 # Easier form generation
 gem 'simple_form', github: 'plataformatec/simple_form'
+
+# Drier controllers with respond_with
+gem 'responders'

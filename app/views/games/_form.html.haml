@@ -1,0 +1,8 @@
+= simple_form_for(@game) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :rating_pending
+
+  .form-actions
+    = f.button :submit
