@@ -14,7 +14,8 @@
               = player_form.association :user,
                 label_method: :name,
                 prompt: 'Select Player',
-                label: position.capitalize
+                label: position.capitalize,
+                required: false
             = team_form.input :goals, input_html: { min: 0 }
 
   .form-actions
