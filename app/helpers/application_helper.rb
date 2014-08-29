@@ -15,4 +15,16 @@ module ApplicationHelper
       notice: 'alert-info',
     }[flash_type.to_sym]
   end
+
+  def base_errors(resource)
+    return nil if (resource.errors.empty?) or (resource.errors[:base].empty?)
+    html = capture_haml do
+      haml_concat "Please review the problems below:"
+      haml_tag :ul do
+        resource.errors[:base].each do |error|
+          haml_tag :li, error
+        end
+      end
+    end
+  end
 end

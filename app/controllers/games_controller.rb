@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_game, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -12,6 +13,7 @@ class GamesController < ApplicationController
 
   def new
     @game = Game.new
+    @game.build_doubles
     respond_with(@game)
   end
 
@@ -35,11 +37,16 @@ class GamesController < ApplicationController
   end
 
   private
-    def set_game
-      @game = Game.find(params[:id])
-    end
+  def set_game
+    @game = Game.find(params[:id])
+  end
 
-    def game_params
-      params.require(:game).permit(:rating_pending)
-    end
+  def game_params
+    params.require(:game).permit({
+      teams_attributes: [
+        :id, :goals,
+        { players_attributes: [:id, :user_id, :position] }
+      ]
+    })
+  end
 end

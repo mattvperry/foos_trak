@@ -1,8 +1,21 @@
-= simple_form_for(@game) do |f|
-  = f.error_notification
+= simple_form_for(@game, wrapper_mappings: { boolean: :vertical_boolean }) do |f|
+  = f.error_notification message: base_errors(@game)
 
-  .form-inputs
-    = f.input :rating_pending
+  .form-inputs.row
+    = f.simple_fields_for :teams do |team_form|
+      .col-md-6
+        .panel.panel-primary
+          .panel-heading
+            %h3.panel-title= "Team #{team_form.index.succ}"
+          .panel-body
+            = team_form.simple_fields_for :players do |player_form|
+              - position = player_form.object.position
+              = player_form.hidden_field :position, value: position
+              = player_form.association :user,
+                label_method: :name,
+                prompt: 'Select Player',
+                label: position.capitalize
+            = team_form.input :goals, input_html: { min: 0 }
 
   .form-actions
     = f.button :submit

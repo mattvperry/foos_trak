@@ -11,10 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828033141) do
+ActiveRecord::Schema.define(version: 20140829023849) do
 
   create_table "games", force: true do |t|
     t.boolean  "rating_pending"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "players", force: true do |t|
+    t.integer  "team_id"
+    t.integer  "user_id"
+    t.integer  "position"
+    t.decimal  "skill_mean"
+    t.decimal  "skill_deviation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "teams", force: true do |t|
+    t.integer  "game_id"
+    t.integer  "goals",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -32,6 +49,7 @@ ActiveRecord::Schema.define(version: 20140828033141) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
