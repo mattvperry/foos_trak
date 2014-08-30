@@ -28,6 +28,8 @@ gem 'devise'
 gem 'simple_form', github: 'plataformatec/simple_form'
 # Drier controllers with respond_with
 gem 'responders'
+# Pagination
+gem 'kaminari'
 
 group :production do
   # Use postgres as the database

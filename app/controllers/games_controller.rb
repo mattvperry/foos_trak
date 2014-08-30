@@ -3,7 +3,7 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
 
   def index
-    @games = Game.all.order(created_at: :desc)
+    @games = Game.order(created_at: :desc).page params[:page]
     respond_with(@games)
   end
 

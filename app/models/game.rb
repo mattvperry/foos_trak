@@ -11,6 +11,8 @@ class Game < ActiveRecord::Base
   validate :all_players_unique
   validate :goal_counts_unique
 
+  paginates_per 20
+
   def build_doubles
     2.times { teams.build }
     teams.each do |t|
