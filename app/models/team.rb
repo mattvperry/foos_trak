@@ -8,4 +8,6 @@ class Team < ActiveRecord::Base
 
   validates_numericality_of :goals,
     only_integer: true, greater_than_or_equal_to: 0
-end
+
+  scope :winning, -> { where(winner: true) }
+ end

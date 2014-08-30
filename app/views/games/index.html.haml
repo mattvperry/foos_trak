@@ -1,19 +1,16 @@
-%h1 Listing games
+%h1 Game History
 
-%table
-  %tr
-    %th Rating pending
-    %th
-    %th
-    %th
+%table.table.table-striped.table-hover
+  %thead
+    %tr
+      %th Team 1
+      %th Team 2
+      %th Score
+      %th Played at
 
   - @games.each do |game|
     %tr
-      %td= game.rating_pending
-      %td= link_to 'Show', game
-      %td= link_to 'Edit', edit_game_path(game)
-      %td= link_to 'Destroy', game, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Game', new_game_path
+      - game.teams.each do |team|
+        %td= "#{team.users.first.name} & #{team.users.second.name}"
+      %td= "#{game.teams.first.goals} to #{game.teams.second.goals}"
+      %td= game.created_at.strftime('%m/%d %I:%M %P')

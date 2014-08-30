@@ -5,6 +5,8 @@ class Game < ActiveRecord::Base
 
   accepts_nested_attributes_for :teams
 
+  before_save :mark_winner, unless: :has_winner?
+
   validates_size_of :teams, is: 2
   validate :all_players_unique
   validate :goal_counts_unique
@@ -18,8 +20,16 @@ class Game < ActiveRecord::Base
   end
 
   private
+  def has_winner?
+    teams.where(winner: true).count == 1
+  end
+
+  def mark_winner
+    teams.select('teams.*', 'MAX(teams.goals)').first.update(winner: true)
+  end
+
   def all_players_unique
-    if users.uniq.length == users.uniq.length
+    if users.uniq.length != users.length
       errors.add(:base, 'All players must be unique')
     end
   end

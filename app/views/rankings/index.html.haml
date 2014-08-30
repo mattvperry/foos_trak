@@ -1,0 +1,17 @@
+%h2 Current Standings
+
+%table.table.table-striped.table-hover
+  %thead
+    %th #
+    %th Player
+    %th Rating
+    %th Wins
+    %th Losses
+
+  - @users.each_with_index do |user, i|
+    %tr
+      %td= i.succ
+      %td= link_to user.name, '#'
+      %td= user.rating
+      %td= user.wins
+      %td= user.losses
