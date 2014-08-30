@@ -34,6 +34,8 @@ group :production do
   gem 'pg'
   # Use unicorn as the app server
   gem 'unicorn'
+  # Enable heroku
+  gem 'rails_12factor'
 end
 
 group :development, :test do
@@ -47,3 +49,5 @@ group :development do
   # Interactive ruby debugger
   gem 'pry'
 end
+
+ruby '2.1.2'
