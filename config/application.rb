@@ -21,5 +21,8 @@ module FoosTrak
     # config.i18n.default_locale = :de
 
     config.sass.preferred_syntax = :sass
+
+    config.domain = 'nerdfoos.herokuapp.com'
+    config.league_name = 'NERD Foosball'
   end
 end

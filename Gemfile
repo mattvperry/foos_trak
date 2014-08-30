@@ -30,12 +30,12 @@ gem 'simple_form', github: 'plataformatec/simple_form'
 gem 'responders'
 # Pagination
 gem 'kaminari'
+# Use unicorn as the app server
+gem 'unicorn'
 
 group :production do
   # Use postgres as the database
   gem 'pg'
-  # Use unicorn as the app server
-  gem 'unicorn'
   # Enable heroku
   gem 'rails_12factor'
 end
@@ -50,6 +50,8 @@ group :development do
   gem 'spring'
   # Interactive ruby debugger
   gem 'pry'
+  # Procfile based app config
+  gem 'foreman'
 end
 
 ruby '2.1.2'

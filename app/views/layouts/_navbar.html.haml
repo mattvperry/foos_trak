@@ -4,7 +4,7 @@
     %span.icon-bar
     %span.icon-bar
     %span.icon-bar
-  %a.navbar-brand{ href: root_path } NERD Foosball
+  %a.navbar-brand{ href: root_path }= Rails.configuration.league_name
 .navbar-collapse.collapse
   %ul.nav.navbar-nav
     = nav_link('Rankings', root_path)
