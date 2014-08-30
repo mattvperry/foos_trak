@@ -3,7 +3,9 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
 
   def index
-    @games = Game.order(created_at: :desc).page params[:page]
+    @games = Game.includes(teams: :users)
+      .order(created_at: :desc)
+      .page params[:page]
     respond_with(@games)
   end
 
