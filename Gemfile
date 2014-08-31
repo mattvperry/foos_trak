@@ -20,6 +20,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 # Twitter bootstrap style framework
 gem 'bootstrap-sass'
+# Twitter bootstrap themes
+gem 'bootswatch-rails'
 # Stylesheet autoprefixer
 gem 'autoprefixer-rails'
 # Authentication with device

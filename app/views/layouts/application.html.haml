@@ -7,7 +7,7 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    .navbar.navbar-inverse.navbar-static-top{ role: 'navigation' }
+    .navbar.navbar-default.navbar-static-top{ role: 'navigation' }
       .container= render 'layouts/navbar'
     .container
       .sub-container{ class: (sub_container_classes if defined?(sub_container_classes)) }
