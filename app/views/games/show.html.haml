@@ -3,7 +3,7 @@
   %br
   %small
     Recorded #{@game.pretty_date} by
-    = @game.creator.name
+    = link_to @game.creator.name, user_path(@game.creator)
 
 %hr
 
@@ -20,7 +20,7 @@
             .row
               .col-xs-6
                 %h3
-                  = player.name
+                  = link_to player.name, user_path(player.user)
                   %small= player.position.capitalize
               .col-xs-6.text-right
                 %h3

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   resources :games
   resources :rankings, only: :index
+  resources :users, only: :show
 
   root to: 'rankings#index'
 end
