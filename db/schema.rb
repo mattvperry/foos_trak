@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831015105) do
+ActiveRecord::Schema.define(version: 20140831084008) do
 
   create_table "games", force: true do |t|
     t.boolean  "rating_pending", default: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "creator_id"
   end
 
   add_index "games", ["created_at"], name: "index_games_on_created_at"

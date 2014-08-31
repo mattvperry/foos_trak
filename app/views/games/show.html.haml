@@ -3,6 +3,7 @@
   %br
   %small
     Recorded #{@game.pretty_date} by
+    = @game.creator.name
 
 %hr
 
@@ -26,10 +27,13 @@
                   = player.rank
                   %small (#{'%+d' % player.rank_delta})
 
-.buttons
-  = link_to 'Edit Game', edit_game_path(@game), class: ['btn', 'btn-primary']
-  = link_to 'Delete Game', game_path(@game),
-      data: { confirm: 'Are you sure?' },
-      method: :delete,
-      class: ['btn', 'btn-danger']
+- if user_signed_in?
+  - disabled = 'disabled' unless can_modify_game(@game)
+  .buttons
+    = link_to 'Edit Game', edit_game_path(@game),
+        class: ['btn', 'btn-primary', disabled]
+    = link_to 'Delete Game', game_path(@game),
+        class: ['btn', 'btn-danger', disabled],
+        data: { confirm: 'Are you sure?' },
+        method: :delete
 = link_to 'Back', games_path

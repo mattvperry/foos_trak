@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :check_players, only: [:update, :destroy]
 
   def index
     @games = Game.includes(teams: :users)
@@ -39,16 +40,24 @@ class GamesController < ApplicationController
   end
 
   private
+  def check_players
+    unless can_modify_game(@game)
+      flash[:error] = 'You must have participated in this game make modifications.'
+      redirect_to :back
+    end
+  end
+
   def set_game
     @game = Game.find(params[:id])
   end
 
   def game_params
-    params.require(:game).permit({
+    params.require(:game).permit([
+      :creator_id,
       teams_attributes: [
         :id, :goals,
         { players_attributes: [:id, :user_id, :position] }
       ]
-    })
+    ])
   end
 end

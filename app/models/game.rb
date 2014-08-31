@@ -2,6 +2,7 @@ class Game < ActiveRecord::Base
   has_many :teams, dependent: :destroy
   has_many :players, through: :teams
   has_many :users, through: :players
+  belongs_to :creator, class_name: 'User', foreign_key: :creator_id
 
   accepts_nested_attributes_for :teams
 
@@ -28,7 +29,7 @@ class Game < ActiveRecord::Base
   end
 
   def pretty_date
-    created_at.strftime('%m/%d %I:%M %P')
+    created_at.in_time_zone('EST').strftime('%m/%d %I:%M %P')
   end
 
   def winning_team

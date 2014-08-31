@@ -2,6 +2,7 @@
   = f.error_notification message: base_errors(@game)
 
   .form-inputs.row
+    = f.hidden_field :creator_id, value: current_user.id
     = f.simple_fields_for :teams do |team_form|
       .col-md-6
         .panel.panel-default
