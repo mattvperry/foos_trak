@@ -53,7 +53,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   # Interactive ruby debugger
-  gem 'pry'
+  gem 'pry-rails'
   # Procfile based app config
   gem 'foreman'
 end

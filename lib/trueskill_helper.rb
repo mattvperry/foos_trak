@@ -1,58 +1,55 @@
 require 'saulabs/trueskill'
 
+include Saulabs::TrueSkill
+
 class TrueskillHelper
   class << self
-    include Saulabs::TrueSkill
-
-    @default_skill_mean = 25.0
-    @default_skill_deviation = @default_skill_mean / 3
-
-    DEFAULT_RATING = Rating.new(@default_skill_mean, @default_skill_deviation)
+    @@default_skill_mean = 25.0
+    @@default_skill_deviation = @@default_skill_mean / 3
 
     def user_rank(user)
-      player_rank(user.players.ordered.first)
+      player_rank user.players.ordered.first
     end
 
     def player_rank(player)
-      r = rating(player)
-      ((r.mean - 3 * r.deviation) * 100).floor
+      r = rating player
+      ((r.mean - 3 * r.deviation) * 100).round
     end
 
     def rate_pending_games
       Game.transaction do
         Game.rating_pending.order(:created_at).each do |game|
-          calculate_ratings(game)
-          game.save!
+          calculate_ratings game
+          game.save
         end
       end
     end
 
     def calculate_ratings(game)
-      get_prev_rating = Proc.new do |player|
-        rating(previous_player(player.user, game))
+      teams = [:winning_team, :losing_team]
+      ratings = teams.map do |sym|
+        game.send(sym).players.map do |player|
+          rating previous_player(player.user, game)
+        end
       end
-
-      ratings = [
-        game.winning_team.players.map(&get_prev_rating),
-        game.losing_team.players.map(&get_prev_rating)
-      ]
 
       FactorGraph.new(ratings, [1, 2]).update_skills
 
-      set_ratings(game.winning_team.players, ratings[0])
-      set_ratings(game.losing_team.players, ratings[1])
+      teams.each_with_index do |sym, i|
+        set_ratings game.send(sym).players, ratings[i]
+      end
 
       game.rating_pending = false
       return true
     end
 
-    def previous_player(user, game)
-      user.players.ordered.where('created_at < ?', game_time(game)).first
+    def previous_player(user, model)
+      user.players.ordered.where('created_at < ?', model_time(model)).first
     end
 
     private
-    def game_time(game)
-      game.created_at || Time.now
+    def model_time(model)
+      model.created_at || Time.now
     end
 
     def set_ratings(players, ratings)
@@ -66,7 +63,7 @@ class TrueskillHelper
       if player and player.skill_mean and player.skill_deviation
         Rating.new player.skill_mean, player.skill_deviation
       else
-        DEFAULT_RATING
+        Rating.new @@default_skill_mean, @@default_skill_deviation
       end
     end
   end

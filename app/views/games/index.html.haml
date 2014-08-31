@@ -8,12 +8,14 @@
         %th Team 2
         %th Score
         %th Played at
+        %th Actions
 
     - @games.each do |game|
       %tr
         - game.teams.each do |team|
-          %td= "#{team.users.first.name} & #{team.users.second.name}"
+          %td= team.name
         %td= "#{game.teams.first.goals} to #{game.teams.second.goals}"
-        %td= game.created_at.strftime('%m/%d %I:%M %P')
+        %td= game.pretty_date
+        %td= link_to 'Details', game_path(game)
 
   = paginate @games

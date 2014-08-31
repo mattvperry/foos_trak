@@ -11,4 +11,16 @@ class Team < ActiveRecord::Base
 
   scope :winning, -> { where(winner: true) }
   scope :losing, -> { where(winner: false) }
+
+  def name
+    "#{users.first.name} & #{users.second.name}"
+  end
+
+  def offense
+    players.offense.first
+  end
+
+  def defense
+    players.defense.first
+  end
  end

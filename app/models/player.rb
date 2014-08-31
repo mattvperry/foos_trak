@@ -10,6 +10,14 @@ class Player < ActiveRecord::Base
   enum position: [:offense, :defense]
 
   def rank
-    TrueskillHelper.player_rank(self)
+    TrueskillHelper.player_rank self
+  end
+
+  def rank_delta
+    rank - TrueskillHelper.previous_player(user, self).rank
+  end
+
+  def name
+    user.name
   end
 end

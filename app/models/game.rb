@@ -7,8 +7,8 @@ class Game < ActiveRecord::Base
 
   before_save :mark_winner, unless: :has_winner?
   before_save :set_ratings, if: :rating_pending?
-  after_save :invalidate_following
-  after_destroy :invalidate_following
+  after_save :invalidate_following, unless: :rating_pending?
+  after_destroy :invalidate_following, unless: :rating_pending?
 
   validates_size_of :teams, is: 2
   validate :all_players_unique
@@ -27,8 +27,12 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def pretty_date
+    created_at.strftime('%m/%d %I:%M %P')
+  end
+
   def winning_team
-    teams.find(&:winner?)
+    teams.find &:winner?
   end
 
   def losing_team
@@ -36,22 +40,25 @@ class Game < ActiveRecord::Base
   end
 
   def self.reset_ratings!
-    update_all(rating_pending: true)
-    TrueskillHelper.rate_pending_games
+    update_all rating_pending: true
   end
 
   private
   def invalidate_following
-    Game.where('created_at > ?', created_at).rating_set.reset_ratings!
+    games = Game.where('created_at > ?', created_at).rating_set
+    if games.any?
+      games.reset_ratings!
+      TrueskillHelper.rate_pending_games
+    end
   end
 
   def set_ratings
     if Game.rating_pending.any?
-      errors.add(:base, 'Some games are still being rated. Try again later.')
+      errors.add :base, 'Some games are still being rated. Try again later.'
       return false
     end
 
-    TrueskillHelper.calculate_ratings(self)
+    TrueskillHelper.calculate_ratings self
   end
 
   def has_winner?
@@ -64,13 +71,13 @@ class Game < ActiveRecord::Base
 
   def all_players_unique
     if users.uniq.length != users.length
-      errors.add(:base, 'All players must be unique')
+      errors.add :base, 'All players must be unique'
     end
   end
 
   def goal_counts_unique
     if teams.first.goals == teams.second.goals
-      errors.add(:base, 'Game can not end in a tie')
+      errors.add :base, 'Game can not end in a tie'
     end
   end
 end
