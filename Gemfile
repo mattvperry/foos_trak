@@ -32,6 +32,8 @@ gem 'responders'
 gem 'kaminari'
 # Use unicorn as the app server
 gem 'unicorn'
+# Trueskill algorithm
+gem 'trueskill'
 
 group :production do
   # Use postgres as the database
@@ -43,6 +45,8 @@ end
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+  # Hide asset log messages
+  gem 'quiet_assets'
 end
 
 group :development do

@@ -10,15 +10,23 @@ class User < ActiveRecord::Base
 
   validates_presence_of :name
 
-  def rating
-    0
+  def rank
+    TrueskillHelper.user_rank(self)
   end
 
   def wins
-    teams.winning.count
+    games.merge(teams.winning)
   end
 
   def losses
-    games.count - wins
+    games.merge(teams.losing)
+  end
+
+  def win_count
+    teams.winning.count
+  end
+
+  def loss_count
+    teams.losing.count
   end
 end

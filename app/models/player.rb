@@ -5,5 +5,11 @@ class Player < ActiveRecord::Base
 
   validates_presence_of :user
 
+  scope :ordered, -> { order(created_at: :desc) }
+
   enum position: [:offense, :defense]
+
+  def rank
+    TrueskillHelper.player_rank(self)
+  end
 end

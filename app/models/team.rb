@@ -10,4 +10,5 @@ class Team < ActiveRecord::Base
     only_integer: true, greater_than_or_equal_to: 0
 
   scope :winning, -> { where(winner: true) }
+  scope :losing, -> { where(winner: false) }
  end

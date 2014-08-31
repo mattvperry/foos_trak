@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140830164106) do
+ActiveRecord::Schema.define(version: 20140831015105) do
 
   create_table "games", force: true do |t|
-    t.boolean  "rating_pending"
+    t.boolean  "rating_pending", default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "games", ["created_at"], name: "index_games_on_created_at"
 
   create_table "players", force: true do |t|
     t.integer  "team_id"
@@ -29,6 +31,7 @@ ActiveRecord::Schema.define(version: 20140830164106) do
     t.datetime "updated_at"
   end
 
+  add_index "players", ["created_at"], name: "index_players_on_created_at"
   add_index "players", ["team_id"], name: "index_players_on_team_id"
   add_index "players", ["user_id"], name: "index_players_on_user_id"
 

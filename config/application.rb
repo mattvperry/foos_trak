@@ -21,6 +21,7 @@ module FoosTrak
     # config.i18n.default_locale = :de
 
     config.sass.preferred_syntax = :sass
+    config.autoload_paths << Rails.root.join('lib')
 
     config.domain = 'nerdfoos.herokuapp.com'
     config.league_name = 'NERD Foosball'
