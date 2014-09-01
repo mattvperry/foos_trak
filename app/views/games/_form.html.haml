@@ -17,7 +17,9 @@
                 prompt: 'Select Player',
                 label: position.capitalize,
                 required: false
-            = team_form.input :goals, input_html: { min: 0 }
+            - goal_value = team_form.object.goals unless team_form.object.new_record?
+            = team_form.input :goals, input_html: { min: 0, placeholder: 0,
+                value: goal_value, class: :goal_input }
 
   .form-actions
     = f.button :submit

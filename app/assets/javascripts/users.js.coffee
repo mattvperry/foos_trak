@@ -2,15 +2,21 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+
 $ ->
   url = $('.stats').data 'url'
-  $.get url, (data) ->
-    render_trueskill data
-    render_winloss data
-    render_positions data
+  if url
+    window.skillgraph = $('.skillgraph')
+    window.winloss_chart = $('.winloss')
+    window.positions_chart = $('.positions')
+
+    $.get url, (data) ->
+      render_trueskill data if window.skillgraph.length
+      render_winloss data if window.winloss_chart.length
+      render_positions data if window.positions_chart.length
 
 render_positions = (data) ->
-  $('.positions').highcharts
+  window.positions_chart.highcharts
     title:
       text: "Position Breakdown"
     series: [
@@ -26,7 +32,7 @@ render_positions = (data) ->
     ]
 
 render_winloss = (data) ->
-  $('.winloss').highcharts
+  window.winloss_chart.highcharts
     title:
       text: "Win Loss Chart"
     series: [
@@ -44,7 +50,7 @@ render_winloss = (data) ->
 
 render_trueskill = (data) ->
   data = [data] unless $.isArray data
-  $('.skillgraph').highcharts "StockChart",
+  window.skillgraph.highcharts "StockChart",
     navigator:
       enabled: false
     rangeSelector:
