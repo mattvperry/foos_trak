@@ -61,6 +61,7 @@ render_trueskill = (data) ->
       enabled: true
     chart:
       type: 'line'
+      pinchType: null
     title:
       text: 'Ratings Over Time'
     xAxis:
