@@ -21,7 +21,7 @@
           = nav_link 'Settings', edit_user_registration_path
           %li= link_to 'Sign Out', destroy_user_session_path, method: :delete
     - elsif !devise_controller?
-      = simple_form_for(:user, url: session_path(:user), html: { class: 'navbar-form' }) do |f|
-        = f.input :email, label: false, placeholder: 'Email'
+      = simple_form_for(:user, url: user_session_path, html: { class: 'navbar-form' }) do |f|
+        = f.input :email, label: false, placeholder: 'Email', input_html: { value: '' }
         = f.input :password, label: false, placeholder: 'Password'
         = f.button :submit, 'Sign In'
