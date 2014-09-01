@@ -1,21 +1,5 @@
 %h2 Game History
 
-.table-container
-  %table.table.table-striped.table-hover
-    %thead
-      %tr
-        %th Team 1
-        %th Team 2
-        %th Score
-        %th When
-        %th Actions
+= render 'listing', games: @games
 
-    - @games.each do |game|
-      %tr
-        - game.teams.each do |team|
-          %td= team.name
-        %td= "#{game.teams.first.goals} to #{game.teams.second.goals}"
-        %td= game.pretty_date
-        %td= link_to 'Details', game_path(game)
-
-  = paginate @games
+= paginate @games

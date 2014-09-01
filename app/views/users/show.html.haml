@@ -1,0 +1,45 @@
+.jumbotron
+  .row
+    .col-xs-8
+      %h1
+        = @user.name
+        %small (#{mail_to @user.email, @user.alias})
+    .col-xs-4.text-right
+      %h1 ##{@user.standing}
+  .row
+    .col-sm-8
+      %h2
+        = @user.rank
+        %small
+          = surround '(', ')' do
+            &mu; =
+            = @user.skill_mean
+            , &sigma; =
+            = @user.skill_deviation
+    .col-sm-4.text-right
+      %h2
+        = @user.win_count
+        %small Wins
+        = @user.loss_count
+        %small Losses
+
+- if @user.games.any?
+  .stats{ data: { url: user_path(@user, format: :json) } }
+    .skillgraph
+    %hr
+    %h2 Stats
+    .row
+      .col-md-6
+        .panel.panel-primary
+          .panel-body.winloss
+      .col-md-6
+        .panel.panel-primary
+          .panel-body.positions
+
+  %h2 Recent Games
+  = render 'games/listing',
+      games: @user.games.order(created_at: :desc).limit(10)
+  .pull-right= link_to 'All Games', games_path
+- else
+  .text-center
+    %h1 Play some games!

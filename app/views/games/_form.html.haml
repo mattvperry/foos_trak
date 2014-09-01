@@ -5,7 +5,7 @@
     = f.hidden_field :creator_id, value: current_user.id
     = f.simple_fields_for :teams do |team_form|
       .col-md-6
-        .panel.panel-default
+        .panel.panel-primary
           .panel-heading
             %h3.panel-title= "Team #{team_form.index.succ}"
           .panel-body

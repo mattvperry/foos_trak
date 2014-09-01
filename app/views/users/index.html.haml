@@ -15,3 +15,6 @@
       %td= user.rank
       %td= user.win_count
       %td= user.loss_count
+
+.stats{ data: { url: users_path(format: :json) } }
+  .skillgraph.multi

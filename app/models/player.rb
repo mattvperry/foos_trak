@@ -14,10 +14,15 @@ class Player < ActiveRecord::Base
   end
 
   def rank_delta
-    rank - TrueskillHelper.previous_player(user, self).rank
+    rank - previous_player.try(:rank).to_i
   end
 
   def name
     user.name
+  end
+
+  private
+  def previous_player
+    TrueskillHelper.previous_player(user, self)
   end
 end

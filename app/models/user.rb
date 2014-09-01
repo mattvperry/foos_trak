@@ -11,8 +11,28 @@ class User < ActiveRecord::Base
 
   validates_presence_of :name
 
+  def self.ranked
+    all.sort_by(&:rank).reverse
+  end
+
   def rank
     TrueskillHelper.user_rank(self)
+  end
+
+  def skill_mean
+    (most_recent_player.try(:skill_mean) || 0).round(2)
+  end
+
+  def skill_deviation
+    (most_recent_player.try(:skill_deviation) || 0).round(2)
+  end
+
+  def standing
+    User.select(:id).ranked.find_index(self).succ
+  end
+
+  def alias
+    email.split('@').first
   end
 
   def participated_in?(game)
@@ -37,5 +57,10 @@ class User < ActiveRecord::Base
 
   def loss_count
     teams.losing.count
+  end
+
+  private
+  def most_recent_player
+    players.ordered.first
   end
 end
