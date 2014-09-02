@@ -29,6 +29,6 @@ $ ->
           team2ids: values_of $('.panel-body:nth(1)').find(player_input)
         $.get '/games/match_quality.json', teams,
           (data) ->
-            if data
+            if data != null
               match_percent = Math.round(parseFloat(data) * 100)
               match_quality.text(match_percent + '% match')
