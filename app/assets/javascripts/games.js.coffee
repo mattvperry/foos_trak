@@ -17,11 +17,13 @@ $ ->
 
   if match_quality.length
     player_input.change () ->
+      values_of = (elems) -> ($(elem).val() for elem in elems)
+
       players = player_input.has('option[value!=""]:selected')
       unique_players = $.unique(values_of(players)).length
       num_players = players.length
+
       if num_players == player_input.length && num_players == unique_players
-        values_of = (elems) -> ($(elem).val() for elem in elems)
         teams =
           team1ids: values_of $('.panel-body:nth(0)').find(player_input)
           team2ids: values_of $('.panel-body:nth(1)').find(player_input)
