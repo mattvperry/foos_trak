@@ -6,5 +6,5 @@ json.players user.players.ordered.reverse do |player|
   json.position player.position
   json.skill_mean player.skill_mean.to_f
   json.skill_deviation player.skill_deviation.to_f
-  json.created_at player.created_at
+  json.created_at player.created_at.rfc822
 end
