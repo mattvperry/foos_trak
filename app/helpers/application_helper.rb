@@ -1,8 +1,4 @@
 module ApplicationHelper
-  def can_modify_game(game)
-    current_user.participated_in?(game) or current_user.created_game?(game)
-  end
-
   # Cannot find a place to put this =( (saving for later)
   def github_button(type)
     url = URI::HTTP.build({
