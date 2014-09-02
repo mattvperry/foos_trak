@@ -7,21 +7,21 @@
     .col-xs-4.text-right
       %h1 ##{@user.standing}
   .row
-    .col-sm-8
+    .col-xs-4
       %h2
         = @user.rank
-        %small
+        %small.hidden-xs
           = surround '(', ')' do
             &mu; =
             = @user.skill_mean
             , &sigma; =
             = @user.skill_deviation
-    .col-sm-4.text-right
+    .col-xs-8.text-right
       %h2
         = @user.win_count
-        %small Wins
+        %small W
         = @user.loss_count
-        %small Losses
+        %small L
 
 - if @user.games.any?
   .stats{ data: { url: user_path(@user, format: :json) } }
