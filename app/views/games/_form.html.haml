@@ -16,7 +16,8 @@
                 label_method: :name,
                 prompt: 'Select Player',
                 label: position.capitalize,
-                required: false
+                required: false,
+                input_html: { class: :player_input }
             - goal_value = team_form.object.goals unless team_form.object.new_record?
             = team_form.input :goals, input_html: { min: 0, placeholder: 0,
                 value: goal_value, class: :goal_input }

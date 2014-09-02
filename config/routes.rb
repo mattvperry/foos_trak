@@ -11,7 +11,10 @@ Rails.application.routes.draw do
       end
   end
 
-  resources :games
+  resources :games do
+    get :match_quality, on: :collection
+  end
+
   resources :users, only: [:index, :show]
 
   root to: 'users#index'

@@ -43,6 +43,26 @@ class TrueskillHelper
       return true
     end
 
+    def match_quality(*teams)
+      mean_sum1, mean_sum2 = teams.map do |team|
+        team.map(&:skill_mean).sum
+      end
+
+      std_dev_sum_squared = teams.map do |team|
+        team.map { |p| p.skill_deviation ** 2 }.sum
+      end.sum
+
+      # Equation defined by TrueSkill. Tried my best
+      # to make it readable
+      # Beta squared times the number of players
+      constant = teams.flatten.count * (@@default_skill_mean / 6) ** 2
+      denominator = constant + std_dev_sum_squared
+      sqrt_part = Math.sqrt(constant / denominator)
+      exp_part = Math.exp((-1 * (mean_sum1 - mean_sum2) ** 2) / (2 * denominator))
+
+      return exp_part * sqrt_part
+    end
+
     def previous_player(user, model)
       user.players.ordered.where('created_at < ?', model_time(model)).first
     end

@@ -3,11 +3,27 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
   before_action :check_players, only: [:update, :destroy]
 
+  respond_to :html, except: :match_quality
+
   def index
     @games = Game.includes(teams: :users)
       .order(created_at: :desc)
       .page params[:page]
     respond_with(@games)
+  end
+
+  def match_quality
+    required_params = [:team1ids, :team2ids]
+
+    if required_params.map { |sym| params[sym].present? }.all?
+      teams = required_params.map do |team|
+        params[team].map { |id| User.find id }
+      end
+
+      @quality = TrueskillHelper.match_quality *teams
+    end
+
+    respond_with @quality
   end
 
   def show
