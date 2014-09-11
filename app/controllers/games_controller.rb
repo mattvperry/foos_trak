@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  include GamesHelper
+
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_game, only: [:show, :edit, :update, :destroy]
   before_action :check_players, only: [:update, :destroy]
