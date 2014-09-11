@@ -6,8 +6,8 @@ class Game < ActiveRecord::Base
 
   accepts_nested_attributes_for :teams
 
-  before_save :mark_winner, unless: :has_winner?
-  before_save :set_ratings, if: :rating_pending?
+  before_save :mark_winner, if: :changed?
+  before_save :set_ratings, if: :changed?
   after_save :invalidate_following, unless: :rating_pending?
   after_destroy :invalidate_following, unless: :rating_pending?
 
@@ -62,11 +62,8 @@ class Game < ActiveRecord::Base
     TrueskillHelper.calculate_ratings self
   end
 
-  def has_winner?
-    teams.where(winner: true).count == 1
-  end
-
   def mark_winner
+    teams.update_all(winner: false)
     teams.max_by(&:goals).winner = true
   end
 
