@@ -33,7 +33,11 @@ class TrueskillHelper
         end
       end
 
-      FactorGraph.new(ratings, [1, 2]).update_skills
+      score_diff = game.teams.map(&:goals).reduce(&:-).abs
+      ScoreBasedBayesianRating.new(
+        ratings[0] => score_diff,
+        ratings[1] => -1 * score_diff,
+      ).update_skills
 
       teams.each_with_index do |sym, i|
         set_ratings game.send(sym).players, ratings[i]
@@ -73,9 +77,12 @@ class TrueskillHelper
     end
 
     def set_ratings(players, ratings)
+      # If you don't do the to_f here you get
+      # arbitrary length decimals that are too long
+      # for postgres
       players.each_with_index do |p, i|
-        p.skill_mean = ratings[i].mean
-        p.skill_deviation = ratings[i].deviation
+        p.skill_mean = ratings[i].mean.to_f
+        p.skill_deviation = ratings[i].deviation.to_f
       end
     end
 

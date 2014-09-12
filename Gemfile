@@ -39,11 +39,11 @@ gem 'highstocks-rails'
 # Use unicorn as the app server
 gem 'unicorn'
 # Trueskill algorithm
-gem 'trueskill'
+gem 'trueskill', github: 'perrym5/trueskill'
+# Use postgres as the database
+gem 'pg'
 
 group :production do
-  # Use postgres as the database
-  gem 'pg'
   # Enable heroku
   gem 'rails_12factor'
 end

@@ -48,6 +48,7 @@ class GamesController < ApplicationController
   end
 
   def update
+    @game.rating_pending = true
     @game.update(game_params)
     respond_with(@game)
   end
