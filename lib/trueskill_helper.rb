@@ -33,11 +33,9 @@ class TrueskillHelper
         end
       end
 
-      score_diff = game.teams.map(&:goals).reduce(&:-).abs
-      ScoreBasedBayesianRating.new(
-        ratings[0] => score_diff,
-        ratings[1] => -1 * score_diff,
-      ).update_skills
+      # Score based alg or regular trueskill?
+      # score_diff = game.teams.map(&:goals).reduce(&:-).abs
+      FactorGraph.new(ratings, [1, 2]).update_skills
 
       teams.each_with_index do |sym, i|
         set_ratings game.send(sym).players, ratings[i]

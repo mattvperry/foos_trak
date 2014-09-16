@@ -39,7 +39,7 @@ gem 'highstocks-rails'
 # Use unicorn as the app server
 gem 'unicorn'
 # Trueskill algorithm
-gem 'trueskill', github: 'perrym5/trueskill'
+gem 'trueskill'
 # Use postgres as the database
 gem 'pg'
 
